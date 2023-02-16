@@ -12,6 +12,7 @@ const SearchBox = styled(TextField)(() => ({
   },
 }));
 
+// search bar component on homepage
 function App() {
   const navigate = useNavigate()
   return (

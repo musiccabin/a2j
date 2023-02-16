@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom"
 import "../../App.css";
 import { styled } from '@material-ui/core/styles';
 
+// search bar component on top of pages other than the homepage
 const SearchBox = styled(TextField)(() => ({
   '& fieldset': {
     borderRadius: '50px',
     height: '6vh',
-    margin: 'auto'
+    margin: 'auto',
+    backgroundColor: 'white'
   },
 }));
 
 function App() {
   return (
-    <div className="main">
+    <div style={{  backgroundColor: '#f0f0f0'}}>
       <div className="search-small">
             <SearchBox
             // id="outlined-basic"

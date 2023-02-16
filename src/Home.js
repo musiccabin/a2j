@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import SearchBar from './js/components/SearchBar'
 
+// homepage showing the search bar
 function App() {
   return (
     <div class='App-header'>
