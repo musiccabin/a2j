@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState, useRef, createRef } from "react";
 import { Card } from "react-bootstrap"
 import "../../App.css";
 import global from '../../Global'
@@ -6,15 +6,32 @@ import CircleIcon from '@mui/icons-material/Circle';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 // an individual insight on search results page
-function App(insight) {
-  const article = global.articles.find(a => a.id === insight.aid)
-  const quote = insight.insight.includes(`"`) || insight.insight.includes(`“`) ? 'Direct quotes' : 'Rephrase'
+function App({id, insight, aid, clicked, handleClick}) {
+  const article = global.articles.find(a => a.id === aid)
+  const quote = insight.includes(`"`) || insight.includes(`“`) ? 'Direct quotes' : 'Rephrase'
   const circleColor = quote === 'Rephrase' ? '#84CC82' : '#FFAC1C'
+
+  const [cardClicked, setClick] = useState()
+  const ref = createRef()
+  const cardHandleClick = (e, id, setParentState) => {
+    e.preventDefault()
+    ref.current?.scrollIntoView({behavior: 'smooth'})
+    setClick(id)
+    setParentState(e, id)
+  }
+
+  const style = clicked ?
+  { background: '#f9f9f9', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter' }
+  : { background: 'white', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter', cursor: 'pointer' }
+
   return (
     <div>
-      <Card style={{ background: 'white', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter' }}>
+      <Card
+        style={style}
+        onClick={e => cardHandleClick(e, id, handleClick)}
+        ref={ref}>
       <Card.Body>
-          <Card.Title style={{fontWeight: 500, marginBottom: '1em'}}>{insight.insight}</Card.Title>
+          <Card.Title style={{fontWeight: 500, marginBottom: '1em'}}>{insight}</Card.Title>
           <Card.Link style={{textDecoration: 'none', color: global.colors.blue, border: 'none', background: 'none', fontWeight: 700, fontSize: '.8em', padding: 0}} href={article.url}>
             {article.title}
             <OpenInNewIcon style={{marginLeft: '5px', fontSize: 'small'}} />

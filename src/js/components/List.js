@@ -6,15 +6,10 @@ import global from '../../Global'
 import { useNavigate } from "react-router-dom"
 import { Grid, Checkbox } from '@mui/material'
 
-function App({list}) {
-    return (
-        <Grid container>
-            {list.map((insight) =>
-            <Card key={insight.id} id={insight.id} insight={insight.text} aid={insight.aid}
-            />
-          )}
-          </Grid>
-    )
-}
+// function App({list}) {
+//     return (
 
-export default App
+//     )
+// }
+
+// export default App
