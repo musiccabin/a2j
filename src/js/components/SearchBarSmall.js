@@ -38,12 +38,12 @@ function App() {
             label="Type your question or keywords here"
             onChange={e => handleChange(e)}
             onKeyPress={(e) => {
-              if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase}})
+              if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase, from: 'Search'}})
             }}
             InputProps={{
               endAdornment: (
                 <InputAdornment>
-                  <IconButton onClick={() => navigate("/results", {state:{phrase:phrase}})}>
+                  <IconButton onClick={() => navigate("/results", {state:{phrase:phrase, from: 'Search'}})}>
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>
@@ -54,7 +54,6 @@ function App() {
             <SearchIcon fontSize="medium" style={{ color: "white", 'margin-top': '0.5em', width: '6vw'}} />
         </div> */}
       </div>
-      {/* <List /> */}
     </div>
   );
 }

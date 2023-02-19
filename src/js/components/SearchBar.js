@@ -6,13 +6,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import "../../App.css";
 import { styled } from '@material-ui/core/styles';
 
-// search bar component on homepage
 // const SearchBox = styled(TextField)(() => ({
 //   '& fieldset': {
 //     borderRadius: '50px',
 //   },
 // }));
 
+// search bar component on homepage
 function App() {
   const [phrase, setPhrase] = useState("");
   const navigate = useNavigate()
@@ -22,7 +22,6 @@ function App() {
     e.preventDefault();
     setPhrase(e.target.value);
   };
-
 
   return (
     <div className="main">
@@ -34,12 +33,12 @@ function App() {
             label="Type your question or keywords here"
             onChange={e => handleChange(e)}
             onKeyPress={(e) => {
-              if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase}})
+              if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase, from: 'Search'}})
             }}
             InputProps={{
               endAdornment: (
                 <InputAdornment>
-                  <IconButton onClick={() => navigate("/results", {state:{phrase:phrase}})}>
+                  <IconButton onClick={() => navigate("/results", {state:{phrase:phrase, from: 'Search'}})}>
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>

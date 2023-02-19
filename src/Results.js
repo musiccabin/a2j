@@ -1,8 +1,10 @@
 import {useLocation} from 'react-router-dom'
+import { React, useState } from "react";
 import logo from './logo.png';
 import './App.css';
 import Card from './js/components/Card'
 import Details from './js/components/Details'
+import List from './js/components/List'
 import Slider from './js/components/Slider'
 import global from './Global'
 import SearchBarSmall from './js/components/SearchBarSmall'
@@ -19,19 +21,25 @@ function App() {
   //   //  card: card;
   //   })
   // }
-  let list = []
   const location = useLocation()
-  global.articles.forEach(a => a.insights.forEach(i => {
-    if (i.includes(location.state.phrase)) {
-      const index = a.insights.indexOf(i)
-      list.push({
-        id: `${a.id}-${index}`,
-        text: i,
-        aid: a.id
-      })
-    }
-  }))
-  console.log ('length:', list.length)
+  let results = []
+  const fromSearch = location?.state?.from === 'Search'
+
+  if (fromSearch) {
+    global.articles.forEach(a => a.insights.forEach(i => {
+      if (i.includes(location.state.phrase)) {
+        const index = a.insights.indexOf(i)
+        results.push({
+          id: `${a.id}-${index}`,
+          text: i,
+          aid: a.id,
+          year: parseInt(a.date.slice(-4))
+        })
+      }
+    }))
+  } else {
+    results = location?.state?.filtered || location.state.list
+  }
   
   return (
     <div style={{background: 'white', minHeight: '100vh'}}>
@@ -39,7 +47,7 @@ function App() {
         <img src={logo} alt="Logo" style={{height: '7vh', margin: '1em'}} />
         <SearchBarSmall />
       </div>
-      {list.length > 0 && <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start'}}>
+      {!(results.length === 0 && fromSearch) && <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start'}}>
         <Grid
           item spacing={3}
           direction="column"
@@ -54,26 +62,22 @@ function App() {
             <Checkbox {...REPHRASED} defaultChecked sx={{ '&.Mui-checked': {color: global.colors.blue,},}} />
           </div>
           <h4>Year of publication</h4>
-          <Slider />
+          <Slider list={location?.state?.list || results} results={results} min={location?.state?.min || 1950} max={location?.state?.max || 2030}/>
           <h4 style={{marginBottom: 5, marginLeft: 5}}>Tags</h4>
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
             <Checkbox {...DIRECTQUOTES} sx={{ '&.Mui-checked': {color: global.colors.blue,},}} />
             <Checkbox {...REPHRASED} sx={{ '&.Mui-checked': {color: global.colors.blue,},}} />
           </div>
         </Grid>
-        <div style={{padding: '10px', backgroundColor: global.colors.grey, height: '100vh'}}>
-          <p style={{marginLeft: 25, color: '#595959', fontSize: '.8em'}}>About {list.length} insights</p>
-          {list.length > 0 && <Grid container>
-            {list.map((insight) =>
-            <Card key={insight.id} id={insight.id} insight={insight.text} aid={insight.aid}
-            />
-          )}
-          </Grid>}
-        </div>
+        {results.length > 0 && <div style={{padding: '10px', backgroundColor: global.colors.grey, minHeight: '100vh'}}>
+          <p style={{marginLeft: 25, color: '#595959', fontSize: '.8em'}}>About {results.length} insights</p>
+          <List list={results} />
+        </div>}
+        {results.length === 0 && <p style={{margin: '5em'}}>No results matching your search criteria...</p>}
         {/* <Details /> */}
       </div>}
-      {list.length === 0 && <div style={{padding: '3em', backgroundColor: global.colors.grey, height: '100vh'}}>
-            <h4>Sorry, no results. Please try searching with a different keyword.</h4>
+      {fromSearch && results.length === 0 && <div style={{padding: '5em', backgroundColor: global.colors.grey, height: '100vh'}}>
+            <p>Sorry, no results. Please try searching with a different keyword.</p>
             </div>}
     </div>
   //   <div>
