@@ -2,7 +2,6 @@ import { React, useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from "react-router-dom"
-// import List from "./Components/List"
 import "../../App.css";
 import { styled } from '@material-ui/core/styles';
 import global from '../../Global'
@@ -24,7 +23,7 @@ function App() {
   // record user input value
   const handleChange = (e) => {
     e.preventDefault();
-    setPhrase(e.target.value);
+    setPhrase(e.target.value.toLowerCase());
   }
 
 

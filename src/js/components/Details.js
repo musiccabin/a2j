@@ -11,17 +11,18 @@ import { Grid } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 // show details on the right when insight is selected
-function App({insight, results, list}) {
+function App({insight, results, list, type}) {
   const navigate = useNavigate()
   const [hidden, hideDetails] = useState(false)
+
+  const quote = insight.text.includes(`"`) || insight.text.includes(`“`) ? 'Direct quotes' : 'Rephrase'
+  // user closes out details panel
   const handleClick = (e) => {
     e.preventDefault()
     hideDetails(true)
     navigate('', {state: {results: results, list: list, clicked: null, from: 'Details'}})
   }
   const style = hidden ? {display: 'none'} : {background: 'white', minWidth: '30vw', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '1.5em', position: 'sticky', top: 0, overflow: 'scroll'}
-
-  const quote = insight.text.includes(`"`) || insight.text.includes(`“`) ? 'Direct quotes' : 'Rephrase'
   const circleColor = quote === 'Rephrase' ? '#84CC82' : '#FFAC1C'
 
   const article = global.articles.find(a => a.id === insight.aid)
@@ -63,5 +64,8 @@ function App({insight, results, list}) {
     </div>
   )
 }
+
+const DIRECTQUOTES = 'Direct quotes'
+const REPHRASED = 'Rephrased'
 
 export default App;

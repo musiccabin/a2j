@@ -6,11 +6,9 @@ import CircleIcon from '@mui/icons-material/Circle';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 // an individual insight on search results page
-function App({id, insight, aid, clicked, handleClick}) {
-  const article = global.articles.find(a => a.id === aid)
-  const quote = insight.includes(`"`) || insight.includes(`“`) ? 'Direct quotes' : 'Rephrase'
-  const circleColor = quote === 'Rephrase' ? '#84CC82' : '#FFAC1C'
-
+function App({id, insight, aid, typeSelected, clicked, handleClick}) {
+  let style = {}
+  // see whether user has clicked on card
   const [cardClicked, setClick] = useState()
   const ref = createRef()
   const cardHandleClick = (e, id, setParentState) => {
@@ -19,10 +17,19 @@ function App({id, insight, aid, clicked, handleClick}) {
     setClick(id)
     setParentState(e, id)
   }
+  // hide insight if type not selected
+  if (!typeSelected) {
+    style = {display: 'none'}
+  } else {  
+    // set selected insight's background to grey
+    style = clicked ?
+    { background: '#f9f9f9', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter' }
+    : { background: 'white', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter', cursor: 'pointer' }
+  }
 
-  const style = clicked ?
-  { background: '#f9f9f9', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter' }
-  : { background: 'white', padding: '1.5em', margin: '1em', borderRadius: '20px', font: 'Inter', cursor: 'pointer' }
+  const article = global.articles.find(a => a.id === aid)
+  const quote = insight.includes(`"`) || insight.includes(`“`) ? 'Direct quotes' : 'Rephrase'
+  const circleColor = quote === 'Rephrase' ? '#84CC82' : '#FFAC1C'
 
   return (
     <div>
