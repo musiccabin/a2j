@@ -12,7 +12,7 @@ const global = {
             `"Americans' descriptions of how they do handle their justice problems reveal that the kind of assistance that they would appreciate would likely have three qualities: it would be timely, appearing at a moment when they recognize that they have a problem; it would be targeted, specific to their actual needs; and it would be trustworthy, coming from sources that they believe are responsible and working in their good interests."`,
             'Multidisciplinary service providers working together to provide a range of problem-focused services (i.e., "co-location strategies") is one technique for providing "timely, targeted, trustworthy assistance." Examples of this strategy in report page 731-32. A challenge presented by this strategy includes the lack of providers in rural communities.'
           ],
-          tags: ['Americans', 'multidisciplinary service providers', 'co-location']
+          tags: ['Americans', 'Multidisciplinary service providers', 'Co-location']
         },
         {
           id: 2,

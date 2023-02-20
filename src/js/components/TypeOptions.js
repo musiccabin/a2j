@@ -3,8 +3,20 @@ import { React, useState, useRef } from "react";
 import global from '../../Global'
 import { useNavigate } from "react-router-dom"
 import { Grid, Checkbox, Button } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import { textTransform } from '@mui/system';
 import { Directions } from '@mui/icons-material';
+
+const TypeButton = styled(Button)(({ theme }) => ({
+    // color: theme.palette.getContrastText(purple[500]),
+    botderRadius: '20px',
+    backgroundColor: buttonBG,
+    height: '3em',
+    border: 'black'
+    // '&:hover': {
+    //   backgroundColor: purple[700],
+    // },
+  }))
 
 // Type of insight selection buttons
 function App({selectedType, selectType}) {
@@ -39,16 +51,18 @@ function App({selectedType, selectType}) {
           style={{margin: 5, fontSize: 'small', textTransform: 'lowercase' }}
           onClick={e => selectType(e, 'any')}
           >Any</Button> */}
-        <Button
+        <TypeButton
           variant="outlined"
-          style={{margin: 5, fontSize: 'small', textTransform: 'lowercase', background: buttonBG}}
+          style={{margin: 5, fontSize: 'small', textTransform: 'lowercase', background: buttonBG, height: '3em', width: '8em', borderRadius: '10px'}}
           onClick={e => handleClick(e, DIRECTQUOTES)}
-          >{DIRECTQUOTES}</Button>
-        <Button
+          >{DIRECTQUOTES}</TypeButton>
+        <TypeButton
           variant="outlined"
-          style={{margin: 5, fontSize: 'small', textTransform: 'lowercase', background: buttonBG}}
+          style={{margin: 5, fontSize: 'small', textTransform: 'lowercase', background: buttonBG, height: '3em', width: '8em', borderRadius: '10px'}}
           onClick={e => handleClick(e, REPHRASED)}
-          >{REPHRASED}</Button>
+          >{REPHRASED}</TypeButton>
+        {/* <ColorButton variant="contained">Custom CSS</ColorButton> */}
+
       </div>
     )
 

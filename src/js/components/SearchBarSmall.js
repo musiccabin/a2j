@@ -16,7 +16,7 @@ const SearchBox = styled(TextField)(() => ({
   },
 }));
 
-function App() {
+function App({tags}) {
   const [phrase, setPhrase] = useState("");
   const navigate = useNavigate()
 
@@ -37,12 +37,12 @@ function App() {
             label="Type your question or keywords here"
             onChange={e => handleChange(e)}
             onKeyPress={(e) => {
-              if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase, from: 'Search'}})
+              if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase, tags: tags, from: 'Search'}})
             }}
             InputProps={{
               endAdornment: (
                 <InputAdornment>
-                  <IconButton onClick={() => navigate("/results", {state:{phrase:phrase, from: 'Search'}})}>
+                  <IconButton onClick={() => navigate("/results", {state:{phrase:phrase, tags: tags, from: 'Search'}})}>
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>
