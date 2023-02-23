@@ -35,7 +35,6 @@ function App() {
   if (fromTags && !refresh) refreshPage(!refresh)
 
   const [close, closeDetails] = useState(false)
-  // if (fromDetails && !location.state.clicked) closeDetails(true)
 
   // see whether user has clicked on any insight
   const [clicked, setClick] = useState(location?.state?.clicked)
@@ -62,7 +61,9 @@ function App() {
       }
     }))
   } else if (fromDetails) results = location.state.results
-  else results = location?.state?.filtered || location.state.list || location?.state?.results || location?.state?.allResults
+  else {
+    results = location?.state?.filtered || location.state.list || location?.state?.results || location?.state?.allResults
+  }
  
   // filter results with tags
   let allResults = results
@@ -77,7 +78,6 @@ function App() {
       if (fromSearch && !refresh) {
         refreshPage(true)
       }
-      console.log('res:', results)
     })   
   }
 
@@ -90,16 +90,17 @@ function App() {
     r.text.includes(`"`) || r.text.includes(`“`) ? quotedInsights.push(r.id) : rephrasedInsights.push(r.id)
   })
   const [ids, setIds] = useState(quotedInsights + rephrasedInsights)
+  if (results.map(r => r.id).includes(clicked) && close && ids.includes(clicked)) closeDetails(false)
   const [type, setType] = useState(ANY)
   const selectType = (newType) => {
     if (newType === DIRECTQUOTES) {
       setIds(quotedInsights)
-      if (type === ANY) closeDetails(true)
+      if (type === ANY && !quotedInsights.includes(clicked)) closeDetails(true)
       setType(newType)
     }
     if (newType === REPHRASED) {
       setIds(rephrasedInsights)
-      if (type === ANY) closeDetails(true)
+      if (type === ANY && !rephrasedInsights.includes(clicked)) closeDetails(true)
       setType(newType)
     }
     if (newType === ANY) {
@@ -112,6 +113,8 @@ function App() {
   let tags = []
   global.articles.forEach(a => a.tags.forEach(t => tags.push(t)))
   tags = [...new Set(tags)].slice(0,5)
+
+  const numResults = results.map(r => r.id).filter(value => ids.includes(value)).length
   
   return (
     <div style={{background: 'white'}}>
@@ -140,7 +143,7 @@ function App() {
           </div>
         </Grid>
         {results.length > 0 && <div style={{padding: '10px', backgroundColor: global.colors.grey, height: '100vh', overflow: 'scroll'}}>
-          <p style={{marginLeft: 25, color: '#595959', fontSize: '.8em'}}>About {ids.length < results.length? ids.length : results.length} insights</p>
+          <p style={{marginLeft: 25, color: '#595959', fontSize: '.8em'}}>About {numResults} insights</p>
           <Grid container>
             {results.map((insight) => 
             <Card
@@ -149,14 +152,14 @@ function App() {
               insight={insight.text}
               aid={insight.aid}
               clicked={clicked === insight.id}
-              typeSelected = {ids.includes(insight.id)}
+              typeSelected={ids.includes(insight.id)}
               handleClick={cardClick}
             />
           )}
           </Grid>
         </div>}
         {results.find(r => r.id === clicked) && !close && <Details insight={results.find(r => r.id === clicked)} results={results} list={location.state.list} type={type} />}
-        {results.length === 0 && <p style={{margin: '5em'}}>No results matching your search criteria...</p>}
+        {numResults === 0 && <p style={{margin: '5em'}}>No results matching your search criteria...</p>}
       </div>}
       {fromSearch && results.length === 0 && <div style={{padding: '5em', backgroundColor: global.colors.grey, height: '100vh'}}>
             <p>Sorry, no results. Please try searching with a different keyword.</p>

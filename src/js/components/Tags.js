@@ -37,9 +37,10 @@ export default function Tags({tags, allResults}) {
         setChecked(!checked)
         status[tag] = !status[tag]
         setStatus(status)
-        console.log('statu', status)
         setSelected(Object.keys(status).filter(k => status[k]))
     }
+    
+    console.log('allR', allResults)
   
     return (
         <FormGroup column>

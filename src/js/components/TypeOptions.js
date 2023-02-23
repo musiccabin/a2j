@@ -54,6 +54,7 @@ function App({selectedType, selectType}) {
         <TypeButton
           variant="outlined"
           style={{margin: 5, fontSize: 'small', textTransform: 'lowercase', background: buttonBG, height: '3em', width: '8em', borderRadius: '10px'}}
+          sx={{border: 'black'}}
           onClick={e => handleClick(e, DIRECTQUOTES)}
           >{DIRECTQUOTES}</TypeButton>
         <TypeButton
@@ -71,6 +72,6 @@ function App({selectedType, selectType}) {
 const DIRECTQUOTES = 'Direct quotes'
 const REPHRASED = 'Rephrased'
 const ANY = 'any'
-const buttonBG = '#d4e5ff'
+const buttonBG = '#deeafc'
 
 export default App
