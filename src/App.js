@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Home from './Home'
 import Results from './Results'
+import SourceDetails from './SourceDetails'
 import { useNavigate, BrowserRouter, Routes, Route } from "react-router-dom"
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/results" element={<Results />} />
+        <Route path="/source-details/:id" element={<SourceDetails />} />
           {/* <Route index element={<Home />} /> */}
       </Routes>
     </BrowserRouter>

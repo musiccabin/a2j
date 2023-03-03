@@ -7,6 +7,7 @@ import Details from './js/components/Details'
 import Slider from './js/components/Slider'
 import TypeOptions from './js/components/TypeOptions'
 import Tags from './js/components/Tags'
+import Header from './js/components/Header'
 import global from './Global'
 import SearchBarSmall from './js/components/SearchBarSmall'
 import { useNavigate } from "react-router-dom"
@@ -61,9 +62,7 @@ function App() {
       }
     }))
   } else if (fromDetails) results = location.state.results
-  else {
-    results = location?.state?.filtered || location.state.list || location?.state?.results || location?.state?.allResults
-  }
+  else results = location?.state?.filtered || location.state.list || location?.state?.results || location?.state?.allResults
  
   // filter results with tags
   let allResults = results
@@ -80,7 +79,6 @@ function App() {
       }
     })   
   }
-
 
   // select insights to display based on user-selected types
   // close insight details on the right if new type is selected
@@ -112,17 +110,14 @@ function App() {
   // get all tags
   let tags = []
   global.articles.forEach(a => a.tags.forEach(t => tags.push(t)))
-  tags = [...new Set(tags)].slice(0,5)
+  tags = [...new Set(tags)]
 
-  const numResults = results.map(r => r.id).filter(value => ids.includes(value)).length
+  const numResults = fromSearch ? results.length : results.map(r => r.id).filter(value => ids.includes(value)).length
   
   return (
     <div style={{background: 'white'}}>
-      <div style={{display: 'flex', flexDirection: 'row', background: global.colors.grey}}>
-        <img src={logo} alt="Logo" style={{height: '7vh', margin: '1em'}} />
-        <SearchBarSmall tags={location?.state?.tags}/>
-      </div>
-      {!(results.length === 0 && fromSearch) && <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start'}}>
+      <Header tags={location?.state?.tags} keywords={location?.state?.phrase}/>
+      {!(numResults === 0 && fromSearch) && <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start'}}>
         <Grid
           item spacing={3}
           direction="column"
@@ -137,12 +132,9 @@ function App() {
           <TypeOptions selectedType={type} selectType={selectType} />
           <h4 style={{marginTop: '3em'}}>Year of publication</h4>
           <Slider list={location?.state?.list || results} results={results} min={location?.state?.min || 1950} max={location?.state?.max || 2030} clicked={clicked}/>
-          <h4 style={{marginTop: '3em', marginBottom: '.5em'}}>Tags</h4>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-            <Tags tags={tags} allResults={allResults}/>
-          </div>
+          <Tags tags={tags} allResults={allResults}/>
         </Grid>
-        {results.length > 0 && <div style={{padding: '10px', backgroundColor: global.colors.grey, height: '100vh', overflow: 'scroll'}}>
+        {numResults > 0 && <div style={{padding: '10px', backgroundColor: global.colors.grey, height: '100vh', overflow: 'scroll'}}>
           <p style={{marginLeft: 25, color: '#595959', fontSize: '.8em'}}>About {numResults} insights</p>
           <Grid container>
             {results.map((insight) => 
@@ -161,7 +153,7 @@ function App() {
         {results.find(r => r.id === clicked) && !close && <Details insight={results.find(r => r.id === clicked)} results={results} list={location.state.list} type={type} />}
         {numResults === 0 && <p style={{margin: '5em'}}>No results matching your search criteria...</p>}
       </div>}
-      {fromSearch && results.length === 0 && <div style={{padding: '5em', backgroundColor: global.colors.grey, height: '100vh'}}>
+      {fromSearch && numResults === 0 && <div style={{padding: '5em', backgroundColor: global.colors.grey, height: '100vh'}}>
             <p>Sorry, no results. Please try searching with a different keyword.</p>
             </div>}
     </div>

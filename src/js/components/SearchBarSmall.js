@@ -6,7 +6,7 @@ import "../../App.css";
 import { styled } from '@material-ui/core/styles';
 import global from '../../Global'
 
-// search bar component on top of pages other than the homepage
+// search bar in page header
 const SearchBox = styled(TextField)(() => ({
   '& fieldset': {
     // borderRadius: '50px',
@@ -16,7 +16,7 @@ const SearchBox = styled(TextField)(() => ({
   },
 }));
 
-function App({tags}) {
+function App({tags, keywords}) {
   const [phrase, setPhrase] = useState("");
   const navigate = useNavigate()
 
@@ -35,6 +35,7 @@ function App({tags}) {
             variant="outlined"
             fullWidth
             label="Type your question or keywords here"
+            defaultValue={keywords}
             onChange={e => handleChange(e)}
             onKeyPress={(e) => {
               if (e.key === 'Enter') navigate("/results", {state:{phrase:phrase, tags: tags, from: 'Search'}})

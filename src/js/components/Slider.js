@@ -7,10 +7,9 @@ import MultiRangeSlider from "multi-range-slider-react";
 import global from '../../Global';
 
 // slider component in the filtering section on search results page
-function App({list, min, max, clicked}) {
+function App({list, results, min, max, clicked}) {
 const navigate = useNavigate()
 
-console.log('list', list)
 const [minValue, set_minValue] = useState(1950);
 const [maxValue, set_maxValue] = useState(2030);
 const handleInput = (e) => {

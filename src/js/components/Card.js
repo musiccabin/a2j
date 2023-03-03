@@ -38,7 +38,7 @@ function App({id, insight, aid, typeSelected, clicked, handleClick}) {
         onClick={e => cardHandleClick(e, id, handleClick)}
         ref={ref}>
       <Card.Body>
-          <Card.Title style={{fontWeight: 500, marginBottom: '1em'}}>{insight}</Card.Title>
+          <Card.Title style={{fontWeight: 450, marginBottom: '1em'}}>{insight}</Card.Title>
           <Card.Link style={{textDecoration: 'none', color: global.colors.blue, border: 'none', background: 'none', fontWeight: 700, fontSize: '.8em', padding: 0}} href={article.url}>
             {article.title}
             <OpenInNewIcon style={{marginLeft: '5px', fontSize: 'small'}} />

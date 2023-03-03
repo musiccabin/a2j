@@ -7,6 +7,7 @@ import global from '../../Global'
 import { styled } from '@material-ui/core/styles';
 import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { Grid } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
@@ -30,11 +31,19 @@ function App({insight, results, list, type}) {
   return (
     <div style={style}>
       <div style={{padding: '.5em'}}>
-        <IconButton
-          aria-label="Close"
-          icon={CloseIcon}
-          style={{border: 'none', background: 'none'}}
-          onClick={e => handleClick(e)} />
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <IconButton
+            aria-label="Close"
+            icon={CloseIcon}
+            style={{border: 'none', background: 'none'}}
+            onClick={e => handleClick(e)} />
+            <Button
+              type="button"
+              style={{padding: '.5em 1em', cursor: 'pointer', borderColor: global.colors.grey, borderStyle: 'solid', borderRadius: '5px', background: 'none', textAlign: 'start'}}
+              onClick={() => navigate(`../source-details/${article.id}`, {state: {article: article}})}>
+                <LibraryBooksIcon style={{color: global.colors.blue, verticalAlign: 'middle', marginRight: '.3em'}} />Source details
+            </Button>
+        </div>
         <div style={{padding: '.5em'}}>
           <p style={{fontWeight: 500, position: 'sticky'}}>{insight.text}</p>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
